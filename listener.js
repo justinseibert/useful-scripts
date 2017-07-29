@@ -27,10 +27,10 @@ var Listener = function(args){
     }
   }
 
-  var timer;
+  lsn.timer;
   lsn.resize = function(){
-    window.clearTimeout(timer);
-    timer = window.setTimeout(function(){
+    window.clearTimeout(lsn.timer);
+    lsn.timer = window.setTimeout(function(){
       lsn.do('resize');
     }, lsn.func.resize.timer);
   };
