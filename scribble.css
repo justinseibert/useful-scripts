@@ -1,0 +1,28 @@
+.scribble-alert {
+  position: fixed;
+  height: 0;
+  width: 0;
+  top: 50%;
+  left: 50%;
+}
+.scribble-alert div {
+  transition: all 200ms;
+}
+.scribble-alert div:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 50px;
+  color: #FFF;
+  transform: scale(1) translate(-50%,-50%);
+}
+.scribble-alert-error:before {
+  content: '\274C';
+}
+.scribble-alert-undo:before {
+  content: '\2B6F';
+}
+.scribble-alert-redo:before {
+  content: '\2B6E';
+}

@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>scribble</title>
+    <style>
+      html, body {
+        margin:0;
+        padding:0;
+        width:100%;
+        height:100%;
+      }
+      canvas {
+        display:block;
+        width: 100%;
+        height: 100%;
+        cursor:default;
+        background:#333;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="scribble.css"></link>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript" src="scribble.js"></script>
+    <script>
+      var a;
+      document.onreadystatechange = function() {
+        if (document.readyState === 'interactive'){
+          a = new Scribble();
+        }
+      }
+    </script>
+  </body>
+</head>
