@@ -112,7 +112,6 @@ var Carousel = function(args){
       C.shift(C.def.current-1);
     }
   },
-
   /**
   * Not in use, may use it to create infinite looping of slides
   */
