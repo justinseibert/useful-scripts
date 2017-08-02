@@ -18,7 +18,7 @@ var Scribble = function(){
     context: [],
   };
   var ctx;
-  var init = function(){
+  s.init = function(){
     def.canvas = document.getElementById(def.id);
     def.canvas.width = def.canvas.clientWidth;
     def.canvas.height = def.canvas.clientHeight;
@@ -26,6 +26,7 @@ var Scribble = function(){
 
     def.alert = document.createElement('div');
     def.alert.className = 'scribble-alert';
+    def.alert.setAttribute('style','z-index:-100');
     for (var each in def.alerts){
       console.log(each);
       def.alerts[each] = document.createElement('div');
@@ -116,13 +117,14 @@ var Scribble = function(){
 
   s.alertTimer;
   s.alert = function(type){
+    def.alert.setAttribute('style','z-index:100');
     def.alerts[type].setAttribute('style','transform:scale(1) translate(-50%, -50%);opacity:0');
     def.alerts[type].setAttribute('style','transform:scale(2) translate(-50%, -50%);opacity:1');
-    // def.alerts[type].className = 'scribble-alert-'+type+' scribble-alert-animate';
     window.clearTimeout(s.alertTimer);
     s.alertTimer = window.setTimeout(function(){
       def.alerts[type].setAttribute('style','opacity:0');
-    }, 100);
+      def.alert.setAttribute('style','z-index:-100');
+    }, 200);
   }
 
   s.undo = function(){
@@ -153,5 +155,4 @@ var Scribble = function(){
   s.reset = function(){
     ctx.clearRect(0,0,def.canvas.width,def.canvas.height);
   }
-  init();
 }

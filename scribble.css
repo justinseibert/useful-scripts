@@ -1,3 +1,17 @@
+html,body {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.scribble-canvas-full {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #FFF;
+}
 .scribble-alert {
   position: fixed;
   height: 0;
@@ -6,7 +20,7 @@
   left: 50%;
 }
 .scribble-alert div {
-  transition: all 200ms;
+  transition: all 300ms;
 }
 .scribble-alert div:before {
   display: block;
@@ -14,7 +28,7 @@
   top: 0;
   left: 0;
   font-size: 50px;
-  color: #FFF;
+  color: #222;
   transform: scale(1) translate(-50%,-50%);
 }
 .scribble-alert-error:before {
@@ -25,4 +39,12 @@
 }
 .scribble-alert-redo:before {
   content: '\2B6E';
+}
+
+.nightmode .scribble-canvas-full {
+  background: #333;
+}
+
+.nightmode .scribble-alert div:before {
+  color: #EEE;
 }
