@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>test carousel</title>
+    <script type="text/javascript" src="listener.js"></script>
+    <script type="text/javascript" src="carousel.js"></script>
+    <style>
+      html,body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .row,
+      img {
+        display: block;
+        width: 100%;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="carousel.css"></link>
+  </head>
+  <body>
+    <div id="photos">
+      <img src="img/one.png">
+      <img src="img/two.png">
+      <img src="img/three.png">
+      <img src="img/four.png">
+    </div>
+    <script>
+      var carousel;
+      function initialize(){
+        carousel = new Carousel({id:'photos'});
+        Listener({
+          resizeFunctions: [carousel.resize],
+          resizeTimer: 500
+        })
+      };
+      Listener({loadFunctions: [initialize]})
+    </script>
+  </body>
+</html>
