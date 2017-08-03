@@ -16,8 +16,12 @@ var Scribble = function(){
     raw: [],
     cache: [],
     context: [],
+    latest: function(){
+      return this.cache[this.cache.length-1];
+    }
   };
   var ctx;
+  var geom = new Geometry();
   s.init = function(){
     def.canvas = document.getElementById(def.id);
     def.canvas.width = def.canvas.clientWidth;
@@ -48,7 +52,7 @@ var Scribble = function(){
   }
 
   var drawing = function(e){
-    var cache = s.data.cache[s.data.cache.length-1];
+    var cache = s.data.latest();
     var point = {
       x: e.clientX,
       y: e.clientY
@@ -64,8 +68,9 @@ var Scribble = function(){
   }
 
   var waiting = function(e){
-    s.data.raw.push(s.data.cache[s.data.cache.length-1]);
-    s.data.cache.pop();
+    process.linear();
+    s.data.raw.push(s.data.latest());
+    reset.cache();
     def.canvas.removeEventListener('mousemove', drawing);
   }
 
@@ -108,10 +113,36 @@ var Scribble = function(){
       i++;
     }
   }
-
   var rerender = function(){
     for (var i in s.data.raw){
       render(s.data.raw[i],def.color,def.line);
+    }
+  }
+  var process = {
+    linear: function(){
+      var i = 0;
+      var j = i+1;
+      var cache = s.data.latest();
+      s.data.cache.push([cache[0]]);
+      var data = s.data.latest();
+      var direction = 0;
+
+      while(i < cache.length-2){
+        var dir = geom.direction(cache[i], cache[j]);
+        if (direction != dir.compass){
+          render([cache[j],cache[j]],'#FA0',10);
+          data.push(cache[j]);
+          direction = dir.compass;
+        } else {
+          var k = 0;
+        }
+        i++;
+        j = i+1;
+      }
+
+      data.push(cache[cache.length-1]);
+      render(data,'#0FA',2);
+      reset.cache();
     }
   }
 
@@ -126,14 +157,13 @@ var Scribble = function(){
       def.alert.setAttribute('style','z-index:-100');
     }, 200);
   }
-
   s.undo = function(){
     var undo = s.data.raw.length-1;
     if (undo > -1){
       var latest = s.data.raw[undo];
       s.data.cache.push(latest);
       s.data.raw.pop();
-      s.reset();
+      reset.canvas();
       s.alert('undo');
       rerender();
     } else {
@@ -145,14 +175,19 @@ var Scribble = function(){
     if (redo > -1){
       var latest = s.data.cache[redo];
       s.data.raw.push(latest);
-      s.data.cache.pop();
+      reset.cache();
       s.alert('redo');
       render(latest,def.color,def.line);
     } else {
       s.alert('error');
     }
   }
-  s.reset = function(){
-    ctx.clearRect(0,0,def.canvas.width,def.canvas.height);
+  var reset = {
+    canvas: function(){
+      ctx.clearRect(0,0,def.canvas.width,def.canvas.height);
+    },
+    cache: function(){
+      s.data.cache.pop();
+    }
   }
 }
