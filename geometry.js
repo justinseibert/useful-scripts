@@ -93,5 +93,54 @@ var Geometry = function(){
   */
 	this.radian = function(degree){
 		return degree * (Math.PI / 180);
-	}
+	},
+  /**
+  * Squashes values of an array into a probabilistic sum of 1
+  * @param {array} - array input of values
+  * @return {array} - returns a softmax array
+  */
+  this.softmax = function(input){
+    var cache = [];
+    var sum = 0;
+    for (var i in input){
+      cache.push(Math.exp(input[i]));
+      sum += cache[i];
+    }
+    for (var i in cache){
+      cache[i] = cache[i] / sum;
+    }
+    return cache;
+  },
+  this.max = function(array){
+    return Math.max(...array);
+  }
+  this.sum = function(array){
+    return array.reduce(function(a,b){
+      if (typeof b === 'number'){
+        return a + b;
+      } else {
+        return a
+      }
+    },0);
+  }
+  /**
+  * @param {array} array - an array of numeric values
+  * @returns {number} - average value in the array
+  */
+  this.average = function(array){
+    return this.sum(array)/array.length;
+  },
+  /**
+  * Extracts data from an array of objects and converts to array
+  * @param {array} array - the array of objects
+  * @param {string} key - the key identifying the data to extract from each object
+  * @returns {array} - values only
+  */
+  this.extract = function(key,array){
+    var a = [];
+    for (var each in array){
+      a.push(array[each][key]);
+    }
+    return a;
+  }
 }
